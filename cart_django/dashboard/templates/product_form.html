@@ -1,0 +1,79 @@
+{% extends 'dashboard_main.html' %}
+
+{% load static %}
+
+{% block head_link %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head_link %}
+
+{% block content %}
+
+<div class="container">
+    <h2 class="text-center py-2">{{action}} to product</h2>
+    {% if messages %}
+    {% for message in messages %}
+        <p class="text-danger">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    <form method="POST" action="
+                {% if product_action == 'product_add' %}
+                    {% url 'product_add' %}
+                {% else %}
+                    {% url 'product_edit' product.id %}
+                {% endif %}
+                "  
+                enctype="multipart/form-data">
+        {% csrf_token %}
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name"
+                            {%if product%}
+                            value = {{product.name}}
+                            {%endif%} >
+        </div>
+        <div class="mb-3">
+            <label for="number" class="form-label">Number</label>
+            <input type="text" class="form-control" id="number" name="number"
+                            {%if product%}
+                            value = {{product.number}}
+                            {%endif%} >
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="text" class="form-control" id="price" name="price"
+                            {%if product%}
+                            value = {{product.price}}
+                            {%endif%} >
+        </div>
+        <div class="mb-3">
+            <label for="describe" class="form-label">Describe</label>
+            <input type="text" class="form-control" id="describe" name="describe"
+                            {%if product%}
+                            value = {{product.describe}}
+                            {%endif%} >
+        </div>
+        <div class="mb-3">
+            <label for="producer" class="form-label">Producer</label>
+            <input type="text" class="form-control" id="producer" name="producer"
+                            {%if product%}
+                            value = {{product.producer}}
+                            {%endif%} >
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label d-block">Image</label>
+            {%if product%}
+            <img class="cart_img pb-2" src="/media/{{product.image}}" alt="">
+            {% endif %}
+            <input type="file" class="form-control" id="image" name="image">                          
+        </div>
+
+
+        <button type="submit" class="btn btn-primary d-block my-2" style="margin: 0 auto;">{{action}}</button>
+    </form>
+</div>
+
+{% endblock content %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}

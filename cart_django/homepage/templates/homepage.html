@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+{% block content %}
+{% load static %}
+<div class='bg-image' style="background-image : url('{% static 'image/bg1.png' %}'); height: 100vh; object-fit: cover;">
+    <div class="container vh-100 d-flex align-items-center justify-content-center">
+        <h1>Welcome for you</h1>
+    </div>
+</div>
+<div class="container py-3">
+    <h4>Detail of company</h4>
+    <p>aaaaaaa aaaaa aaaaaa aaaa</p>
+</div>
+{% endblock content %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}

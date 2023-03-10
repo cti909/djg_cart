@@ -1,0 +1,93 @@
+{% extends 'dashboard_main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-3">
+    <h3>Product</h3>
+    <div class="row">
+        <div class="col">
+            <div class="card my-3 text-center">
+                <div class="card-header">
+                    Total remaining products
+                </div>
+                <div class="card-body">
+                    0
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+            <div class="card my-3 text-center">
+                <div class="card-header">
+                    Total product
+                </div>
+                <div class="card-body">
+                    0
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+            <div class="card my-3 text-center">
+                <div class="card-header">
+                    Total product
+                </div>
+                <div class="card-body">
+                    0
+                </div>
+            </div>
+        </div>
+        {% comment %} <canvas id="myChart"></canvas> {% endcomment %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+{% block js_link %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% comment %} <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "{% url 'statistical' %}",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var labels = [];
+                    var values = [];
+                    data.forEach(function(item) {
+                        labels.push(item.name);
+                        values.push(item.value);
+                    });
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'My Dataset',
+                                data: values,
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script> {% endcomment %}
+{% endblock js_link %}
+
+

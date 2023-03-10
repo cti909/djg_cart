@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<section class="py-3">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5 card bg-dark text-white">
+              <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+              <form method='POST' action="{% url 'registerPage' %}">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="name">Your Name</label>
+                    <input name='name' type="text" id="text" class="form-control form-control-lg" placeholder="Your Name" />   
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="username">Username</label>
+                    <input name='username' type="text" id="username" class="form-control form-control-lg" placeholder="Username"/>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input name='password' type="text" id="password" class="form-control form-control-lg" placeholder="Password"/>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="email">Email</label>
+                  <input name='email' type="email" id="email" class="form-control form-control-lg" placeholder="Email"/>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="phone">Phone</label>
+                    <input name='phone' type="text" id="phone" class="form-control form-control-lg" placeholder="Phone"/>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="address">Address</label>
+                    <input name='address' type="text" id="address" class="form-control form-control-lg" placeholder="Address"/>
+                </div>
+                <div class="form-outline mb-4">
+                  <div class="d-flex align-items-center">
+                    <h4 class="w-25">Position:</h4>
+                    <div class="mx-2">
+                      <label class="form-label" for="address">Customer</label>
+                      <input type="radio" name="position" value="customer">
+                    </div>
+                    <div class="mx-2">
+                      <label class="form-label" for="address">Seller</label>
+                      <input type="radio" name="position" value="seller">
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                </div>
+                {% comment %} <div>
+                    <p class="mb-0  text-center">Don't have an account? <a href="{% url 'registerPage' %}" class="text-white-50 fw-bold">Sign Up</a></p>
+                </div> {% endcomment %}
+                {% comment %} <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
+                    class="fw-bold text-body"><u>Login here</u></a></p> {% endcomment %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

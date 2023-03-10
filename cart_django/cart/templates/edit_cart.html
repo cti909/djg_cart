@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block head_link %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock head_link %}
+
+{% block content %}
+<div class="container border border-3 border-dark rounded py-3 my-3">
+    <form method="POST" action="{% url 'cart_edit' id=product.id number=product.number%}">
+        {% csrf_token %}
+        <div class="row">
+        <div class="col">
+            <img src="/media/{{product.image}}" class="img-thumbnail resize" alt="error">
+        </div>
+        <div class="col">
+            <div class="d-flex py-2">
+                <h3>Name of product:</h3>
+                <h3 class="ps-2">{{product.name}}</h3>
+            </div>
+            <div class="d-flex py-2">
+                <h3>Number of product:</h3>
+                <h3 class="ps-2 number" value="{{product.number}}">{{product.number}}</h3>
+            </div>
+            <div class="d-flex py-2">
+                <h3>Price:</h3>
+                <h3 class="ps-2">{{product.price}}$</h3>
+            </div>
+            <div class="d-flex py-2">
+                <h3 class="me-2">Enter quantity:</h3>
+                <div class="left_button btn btn-light">
+                    <i class="fa-solid fa-minus"></i>
+                </div>
+                <input name="num" type="text" class="quantity form-control input_num mx-2" value="{{number}}">
+                <div class="right_button btn btn-light">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">
+                Edit product to cart
+            </button>
+        </div>
+    </div>
+    <div class="container border border-info rounded py-2 my-2">
+        <h5>Describe</h5>
+        <p>{{product.describe}}</p>
+    </div>
+</form>
+</div>
+
+{% endblock content %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+{% block js_link %}
+    {% load static %}
+    <script src="{% static 'js/carte.js' %}"></script>
+    <script src="{% static 'js/buta_control.js' %}"></script>
+{% endblock js_link %}

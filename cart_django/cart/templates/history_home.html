@@ -1,0 +1,89 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block head_link %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head_link %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class='text-center'>History payment</h2>
+</div>
+<div class="container py-3">
+    <table class="table table-bordered">
+        <thead class="text-center">
+          <tr  class="bg-info">
+            <th width="5%">#</th>
+            <th width="15%">Receiver</th>
+            <th width="20%">Time</th>
+            <th width="15%">Name</th>
+            <th width="10%">Number</th>
+            <th width="10%">Price</th>
+            <th width="10%">Total</th>
+            <th width="15%">Total price</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+        {% if request.user.is_authenticated %}
+        {% for order in products %}
+        <tr>
+            <td rowspan="{{order.count}}">
+                {{order.auto_id}}
+            </td>
+            <td rowspan="{{order.count}}">
+                {{order.receiver}}
+            </td>
+            <td rowspan="{{order.count}}">
+                {{order.date}}
+            </td>
+            <td>
+                {{order.list_order.0.name}}
+            </td>
+            <td>
+                {{order.list_order.0.number}}
+            </td>
+            <td>
+                {{order.list_order.0.price}}
+            </td>
+            <td>
+                {{order.list_order.0.total}}
+            </td>
+            <td  rowspan="{{order.count}}">
+                {{order.total_price}}
+            </td>
+            {% comment %} <td>
+                {{order.list_order}}
+            </td> {% endcomment %}
+            {% for product in order.list_order %}
+            {% if product != order.list_order.0 %}
+            <tr>
+                <td>
+                    {{product.name}}
+                </td>
+                <td>
+                    {{product.number}}
+                </td>
+                <td>
+                    {{product.price}}
+                </td>
+                <td>
+                    {{product.total}}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td class="text-center" colspan="7">No entry!</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}

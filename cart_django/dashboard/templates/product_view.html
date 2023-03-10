@@ -1,0 +1,52 @@
+{% extends 'dashboard_main.html' %}
+
+{% load static %}
+
+{% block head_link %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head_link %}
+
+{% block content %}
+
+<div class="container py-3">
+    <h2 class="text-center py-3">Detail of product: {{product.name}}</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <td>{{product.id}}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{product.name}}</td>
+        </tr>
+        <tr>
+            <th>Number</th>
+            <td>{{product.number}}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{product.price}}</td>
+        </tr>
+        <tr>
+            <th>Describe</th>
+            <td>{{product.describe}}</td>
+        </tr>
+        <tr>
+            <th>Producer</th>
+            <td>{{product.producer}}</td>
+        </tr>
+        <tr>
+            <th>Image</th>
+            <td>
+                <img class="cart_img" src="/media/{{product.image}}" alt="">
+            </td>
+            {% comment %} <td>{{product.image}}</td> {% endcomment %}
+        </tr>
+    </table>
+    <button class="btn btn-primary py-2" onclick="history.back()">Back to view all product</button>
+</div>
+
+{% endblock content %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}

@@ -1,0 +1,87 @@
+{% extends 'dashboard_main.html' %}
+{% load static %}
+{% block head_link %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head_link %}
+
+{% block content %}
+<div class="bg-light">
+    <div class="container">
+        <div class="card my-3">
+            <div class="card-header">
+                Table of your product
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="bg-info">
+                        <tr>
+                            <th width="5%">#</th>
+                            <th width="15%">Name</th>
+                            <th width="30%">Image</th>
+                            <th width="20%">Number</th>
+                            <th width="15%">Price</th>
+                            <th width="15%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td>{{product.id}}</td>
+                            <td>{{product.name}}</td>
+                            <td>
+                                <img class="mg-thumbnail cart_img" src="/media/{{product.image}}" alt="">
+                            </td>
+                            <td>{{product.number}}</td>
+                            <td>{{product.price}}</td>
+                            <td >
+                                <div class="d-flex justify-content-center">
+                                    <a class="text-decoration-none" href="{% url 'product_view' id=product.id %}">
+                                        <button class="btn btn-info border p-2 d-flex">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </a>
+                                    <a class="text-decoration-none" class="mx-2" href="{% url 'product_edit' id=product.id %}">
+                                        <button class="btn btn-warning border p-2 d-flex">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </a>
+                                    <a class="text-decoration-none" href="{% url 'product_delete' id=product.id%}">
+                                        <button class="btn btn-danger border p-2 d-flex">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="card my-3">
+            <div class="card-header">
+                Add new product
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <h4>Click here</h4> 
+                <a class="text-decoration-none ps-2" href="{% url 'product_add' %}">
+                    <button class="btn btn-success p-2 d-flex">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+{% block js_link %}
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock js_link %}
+
+

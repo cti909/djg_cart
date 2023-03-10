@@ -1,0 +1,173 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block head_link %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/cursor_pointer.css' %}">
+{% endblock head_link %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item px-2">
+                <a class="nav-link" aria-current="page" href="{% url 'product_category' category='all'%}">
+                    <i class="fa-solid fa-house"></i>
+                    All
+                </a>
+            </li>
+          <li class="nav-item px-2">
+            <a class="nav-link" aria-current="page" href="{% url 'product_category' category='food'%}">
+                <i class="fa-solid fa-utensils"></i>
+              Food
+            </a>
+          </li>
+          <li class="nav-item px-2">
+            <a class="nav-link" href="{% url 'product_category' category='phone' %}">
+                <i class="fa-solid fa-mobile-screen"></i>
+                Phone
+            </a>
+          </li>
+          <li class="nav-item px-2">
+            <a class="nav-link" href="{% url 'product_category' category='laptop' %}">
+                <i class="fa-solid fa-laptop"></i>
+              Laptop
+            </a>
+          </li>
+          <li class="nav-item px-2">
+            <a class="nav-link" href="{% url 'product_category' category='sport' %}">
+            <i class="fa-solid fa-volleyball"></i>
+              Sport
+            </a>
+          </li>
+          <li class="nav-item px-2">
+            <a class="nav-link" href="{% url 'product_category' category='pet' %}">
+                <i class="fa-solid fa-paw"></i>
+              Pet
+            </a>
+          </li>
+          <li class="nav-item px-2">
+            <a class="nav-link" href="{% url 'product_category' category='other' %}">
+              Other
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<div class="container position-relative py-3">
+    {% comment %} <hr> {% endcomment %}
+        <div class="row">
+            <div class="col-8">
+                <form method="POST" action="{% url 'product_sort' %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <h5 class="w-25 d-flex align-items-center text-center">Choose of field:</h2>
+                        <select class="w-25 form-select" name="field" id="field">
+                            <option value="name">Name</option>
+                            <option value="price">Price</option>
+                            <option value="producer">Producer</option>
+                        </select>
+                        <div class="d-flex align-items-center px-3">
+                            <div class="form-check pe-2">
+                                <input class="form-check-input" type="radio" name="sort" id="asc" value="asc">
+                                <label class="form-check-label" for="asc">
+                                    <i class="fa-solid fa-arrow-down-short-wide"></i>
+                                    asc
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sort" id="desc" value="desc">
+                                <label class="form-check-label" for="desc">
+                                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                                    desc
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sort</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <form method="POST" action="{% url 'product_search' %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <input id="search_product" name="search" type="search" class="form-control" placeholder="Search" value="{{token}}"/>
+                        <button class="btn btn-primary" onClick="showProduct()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>   
+            </div>
+        </div>
+    <h1 class="text-center py-3">List product</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for product in products %}
+        <div class="col">
+            <div class="card shadow-sm">
+                <img class="img-thumbnail view_img" src="/media/{{product.image}}" alt="">   
+                <div class="card-body">
+                    <h3 class="card-text text-center">{{product.name}}</h3>
+                    <h5 class="card-text text-center">Total product: {{product.number}}</h5>
+                    <h5 class="card-text text-center">Price: {{product.price}}$</h5>
+                    <h5 class="card-text text-center">Producer: {{product.producer}}</h5>
+                    {% comment %} <p>{{product.user_id.phone}}</p> {% endcomment %}
+                    <div class="d-flex justify-content-end align-items-center">
+                        {% comment %} {% if request.user == product.user_id %}
+                        <div class="btn-group">
+                            <a href="{% url 'product_edit' id=product.id %}">
+                                <button class="btn btn-sm btn-outline-secondary mx-1">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            </a>
+                            <a href="{% url 'product_delete' id=product.id %}">
+                                <button class="btn btn-sm btn-outline-secondary mx-1">
+                                    <i class="fa-solid fa-x"></i>
+                                </button>
+                            </a>
+                        </div>
+                        {% endif %} {% endcomment %}
+                        <div class="btn-group">
+                            <a href="{% url 'product_detail' id=product.id%} ">
+                                <button class="btn btn-sm btn-outline-secondary mx-1">View detail</button>
+                            </a>
+                            <button class="btn btn-sm btn-outline-secondary mx-1" id="product{{product.id}}" onClick="add_cart(
+                                                                                                            '{{product.id}}',
+                                                                                                            '{{product.image}}',
+                                                                                                            '{{product.name}}',
+                                                                                                            '{{product.number}}',
+                                                                                                            '{{product.price}}',
+                                                                                                            '{{product.describe}}',
+                                                                                                            '{{product.producer}}',
+                                                                                                            '{% url 'add_cart' %}'
+                                                                                                            )">
+                                Buy now
+                            </button>
+                        </div>
+                        {% comment %} <small class="text-muted">9 mins</small> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="showform">
+
+    </div>
+</div>
+{% endblock content%}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
+{% block js_link %}
+    {% load static %}
+    <script src="{% static 'js/carte.js' %}"></script>
+    <script src="{% static 'js/show_product.js' %}"></script>
+    {% comment %} <script src="{% static 'js/but_control.js' %}"></script> {% endcomment %}
+{% endblock js_link %}
+
+

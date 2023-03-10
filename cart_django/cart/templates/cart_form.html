@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block head_link %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head_link %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center py-2">{{action}} product from cart</h2>
+    <form method="POST" action="{% url 'cart_edit' id=product.id number=product.number%}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input disabled type="text" class="form-control" id="name" name="name"
+                            {%if product%}
+                            value = {{product.product_id.name}}
+                            {%endif%} >
+        </div>
+        <div class="mb-3">
+            <label for="number" class="form-label">Number</label>
+            <input type="text" class="form-control" id="number" name="number"
+                            {%if product%}
+                            value = {{product.number}}
+                            {%endif%} >
+        </div>
+        <button type="submit" class="btn btn-primary d-block" style="margin: 0 auto;">{{action}}</button>
+    </form>
+</div>
+{% endblock content %}
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock footer %}
